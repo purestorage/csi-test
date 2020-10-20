@@ -68,7 +68,7 @@ func isPluginCapabilitySupported(c csi.IdentityClient,
 
 func runControllerTest(sc *TestContext, r *Resources, controllerPublishSupported bool, nodeStageSupported bool, nodeVolumeStatsSupported bool, count int) {
 
-	name := UniqueString("sanity-node-full")
+	name := UniqueString("n-full")
 
 	By("getting node information")
 	ni, err := r.NodeGetInfo(
@@ -506,7 +506,7 @@ var _ = DescribeSanity("Node Service", func(sc *TestContext) {
 
 			// Create Volume First
 			By("creating a single node writer volume")
-			name := UniqueString("sanity-node-stage-nocaps")
+			name := UniqueString("n-stage-nocaps")
 
 			vol := r.MustCreateVolume(
 				context.Background(),
@@ -633,7 +633,7 @@ var _ = DescribeSanity("Node Service", func(sc *TestContext) {
 		})
 
 		It("should fail when volume does not exist on the specified path", func() {
-			name := UniqueString("sanity-node-get-volume-stats")
+			name := UniqueString("n-get-volume-stats")
 
 			vol := createVolume(name)
 
@@ -695,7 +695,7 @@ var _ = DescribeSanity("Node Service", func(sc *TestContext) {
 		})
 
 		It("should fail when no volume path is provided", func() {
-			name := UniqueString("sanity-node-expand-volume-valid-id")
+			name := UniqueString("n-expand-volume-valid-id")
 
 			vol := createVolume(name)
 
@@ -729,7 +729,7 @@ var _ = DescribeSanity("Node Service", func(sc *TestContext) {
 		})
 
 		It("should work if node-expand is called after node-publish", func() {
-			name := UniqueString("sanity-node-expand-volume")
+			name := UniqueString("n-expand-volume")
 
 			// Created volumes are automatically cleaned up via cl.DeleteVolumes
 			vol := createVolume(name)
