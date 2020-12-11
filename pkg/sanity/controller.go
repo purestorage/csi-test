@@ -385,7 +385,7 @@ var _ = DescribeSanity("Controller Service [Controller Server]", func(sc *TestCo
 		})
 
 		It("should fail when no volume capabilities are provided", func() {
-			name := UniqueString("c-create-no-volume-capabilities")
+			name := UniqueString("c-create-no-capabilities")
 			_, err := r.CreateVolume(
 				context.Background(),
 				&csi.CreateVolumeRequest{
@@ -405,7 +405,7 @@ var _ = DescribeSanity("Controller Service [Controller Server]", func(sc *TestCo
 		It("should return appropriate values SingleNodeWriter NoCapacity", func() {
 
 			By("creating a volume")
-			name := UniqueString("c-create-single-no-capacity")
+			name := UniqueString("c-create-single-no-cap")
 
 			r.MustCreateVolume(
 				context.Background(),
@@ -426,7 +426,7 @@ var _ = DescribeSanity("Controller Service [Controller Server]", func(sc *TestCo
 		It("should return appropriate values SingleNodeWriter WithCapacity 1Gi", func() {
 
 			By("creating a volume")
-			name := UniqueString("c-create-single-with-capacity")
+			name := UniqueString("c-create-single-with-cap")
 
 			vol, err := r.CreateVolume(
 				context.Background(),
@@ -915,7 +915,7 @@ var _ = DescribeSanity("Controller Service [Controller Server]", func(sc *TestCo
 
 			By("publishing volumes")
 			for i := int64(0); i < nodeInfo.MaxVolumesPerNode; i++ {
-				name := UniqueString(fmt.Sprintf("c-max-attach-limit-vol-%d", i))
+				name := UniqueString(fmt.Sprintf("c-max-attach-vol-%d", i))
 				vol := r.MustCreateVolume(context.Background(), MakeCreateVolumeReq(sc, name))
 				volID := vol.GetVolume().GetVolumeId()
 				r.MustControllerPublishVolume(
@@ -1128,18 +1128,18 @@ var _ = DescribeSanity("ListSnapshots [Controller Server]", func(sc *TestContext
 
 		By("creating first unrelated snapshot")
 		// Create volume source and afterwards the first unrelated snapshot.
-		volReq := MakeCreateVolumeReq(sc, "listSnapshots-volume-unrelated1")
-		r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "listSnapshots-snapshot-unrelated1")
+		volReq := MakeCreateVolumeReq(sc, "lsSnaps-volume-unrelated1")
+		r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "lsSnaps-snapshot-unrelated1")
 
 		By("creating target snapshot")
 		// Create volume source and afterwards the target snapshot.
-		volReq = MakeCreateVolumeReq(sc, "listSnapshots-volume-target")
-		snapshotTarget, _ := r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "listSnapshots-snapshot-target")
+		volReq = MakeCreateVolumeReq(sc, "lsSnaps-volume-target")
+		snapshotTarget, _ := r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "lsSnaps-snapshot-target")
 
 		By("creating second unrelated snapshot")
 		// Create volume source and afterwards the second unrelated snapshot.
-		volReq = MakeCreateVolumeReq(sc, "listSnapshots-volume-unrelated2")
-		r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "listSnapshots-snapshot-unrelated2")
+		volReq = MakeCreateVolumeReq(sc, "lsSnaps-volume-unrelated2")
+		r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "lsSnaps-snapshot-unrelated2")
 
 		By("listing snapshots")
 		snapshots, err := r.ListSnapshots(
@@ -1170,18 +1170,18 @@ var _ = DescribeSanity("ListSnapshots [Controller Server]", func(sc *TestContext
 
 		By("creating first unrelated snapshot")
 		// Create volume source and afterwards the first unrelated snapshot.
-		volReq := MakeCreateVolumeReq(sc, "listSnapshots-volume-unrelated1")
-		r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "listSnapshots-snapshot-unrelated1")
+		volReq := MakeCreateVolumeReq(sc, "lsSnaps-volume-unrelated1")
+		r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "lsSnaps-snapshot-unrelated1")
 
 		By("creating target snapshot")
 		// Create volume source and afterwards the target snapshot.
-		volReq = MakeCreateVolumeReq(sc, "listSnapshots-volume-target")
-		snapshotTarget, _ := r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "listSnapshots-snapshot-target")
+		volReq = MakeCreateVolumeReq(sc, "lsSnaps-volume-target")
+		snapshotTarget, _ := r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "lsSnaps-snapshot-target")
 
 		By("creating second unrelated snapshot")
 		// Create volume source and afterwards the second unrelated snapshot.
-		volReq = MakeCreateVolumeReq(sc, "listSnapshots-volume-unrelated2")
-		r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "listSnapshots-snapshot-unrelated2")
+		volReq = MakeCreateVolumeReq(sc, "lsSnaps-volume-unrelated2")
+		r.MustCreateSnapshotFromVolumeRequest(context.Background(), volReq, "lsSnaps-snapshot-unrelated2")
 
 		By("listing snapshots")
 		snapshots, err := r.ListSnapshots(
